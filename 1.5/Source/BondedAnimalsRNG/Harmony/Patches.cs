@@ -22,6 +22,9 @@ namespace BondedAnimalsRNG
             harmony.Patch(original: AccessTools.Method(typeof(Pawn_RelationsTracker), "Tick_CheckDevelopBondRelation"),
                 postfix: new HarmonyMethod(typeof(Patches), nameof(Pawn_RelationsTrackerTick_CheckDevelopBondRelation_Postfix)));
             
+            harmony.Patch(original: AccessTools.Method(typeof(PawnCapacityUtility), "CalculateCapacityLevel"),
+                postfix: new HarmonyMethod(typeof(Patches), nameof(PawnCapacityUtilityCalculateCapacityLevel_Postfix)));
+            
             harmony.Patch(original: AccessTools.Method(typeof(Pawn_RelationsTracker), "RelationsTrackerTick"),
                 postfix: new HarmonyMethod(typeof(Patches), nameof(Pawn_RelationsTrackerRelationsTrackerTick_Postfix)));
         }
@@ -78,6 +81,32 @@ namespace BondedAnimalsRNG
             {
                 Messages.Message($"The animal {___pawn.LabelShort} has developed a special bond.", 
                     ___pawn, MessageTypeDefOf.PositiveEvent);
+            }
+        }
+        
+        public static void PawnCapacityUtilityCalculateCapacityLevel_Postfix(ref float __result, HediffSet diffSet, PawnCapacityDef capacity)
+        {
+            foreach (Hediff hediff in diffSet.hediffs)
+            {
+                if (!HediffCollections.CapacityChangeHediffs.Contains(hediff.def)) continue;
+                HediffComp_CapacityOffset capacityOffsetComp = hediff.TryGetComp<HediffComp_CapacityOffset>();
+                
+                BARNGLog.Message($"Original value: {__result}");
+                
+                if (capacityOffsetComp == null) continue;
+                List<PawnCapacityModifier> capMods = hediff.CapMods;
+                
+                if (capMods == null) continue;
+                for (int i = 0; i < capMods.Count; i++)
+                {
+                    PawnCapacityModifier pawnCapacityModifier = capMods[i];
+                    
+                    if (pawnCapacityModifier.capacity != capacity) continue;
+                    float adjustment = capacityOffsetComp.randomAdjustmentValue;
+                    BARNGLog.Message($"Adjustment value: {adjustment}");
+                    
+                    __result *= adjustment;
+                }
             }
         }
         

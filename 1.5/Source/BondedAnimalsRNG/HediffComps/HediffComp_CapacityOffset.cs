@@ -6,17 +6,12 @@ namespace BondedAnimalsRNG
     {
         public HediffCompProperties_CapacityOffset Props => (HediffCompProperties_CapacityOffset)props;
         
-        public float randomAdjustmentValue = 1f;
-
+        public float randomAdjustmentValue;
+        
         public override void CompPostMake()
         {
             base.CompPostMake();
             randomAdjustmentValue = Props.adjustmentRange.RandomInRange;
-            
-            foreach (PawnCapacityModifier capacity in parent.CapMods)
-            {
-                capacity.postFactor *= randomAdjustmentValue;
-            }
         }
     }
 }

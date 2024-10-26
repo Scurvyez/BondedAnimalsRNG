@@ -27,14 +27,5 @@ namespace BondedAnimalsRNG
         }
         
         public override Color LabelColor => BARNGLog.MessageMsgCol;
-
-        public override void PreRemoved()
-        {
-            base.PreRemoved();
-            foreach (PawnCapacityModifier capacity in CapMods)
-            {
-                capacity.postFactor *= 1f;
-            }
-        }
     }
 }
