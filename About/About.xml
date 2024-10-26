@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+    <name>Bonded Animals RNG</name>
+    <author>Scurvyez</author>
+    <packageId>Scurvyez.BondedAnimalsRNG</packageId>
+    <supportedVersions>
+        <li>1.5</li>
+    </supportedVersions>
+
+    <description>
+Discord: steveo.o
+steam: Scurvyez
+
+This mod adds a little variety to the animals of your colony. When an animal becomes bonded to a colonist, said animal will gain a random skill alteration. These can be either buffs or debuffs and are permanent. May the odds be ever in your favor.
+    </description>
+
+    <loadAfter>
+        <li>Ludeon.RimWorld</li>
+    </loadAfter>
+
+</ModMetaData>

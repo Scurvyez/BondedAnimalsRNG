@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <HediffDef>
+        <defName>BARNG_StatChange</defName>
+        <label>stat change</label>
+        <labelNoun>a stat change</labelNoun>
+        <description>This pawn has gained a new stat adjustment</description>
+        <hediffClass>HediffWithComps</hediffClass>
+        <comps>
+            <li Class="BondedAnimalsRNG.HediffCompProperties_StatOffset">
+                <possibleStatDefs>
+                    <li>InjuryHealingFactor</li>
+                    <li>CarryingCapacity</li>
+                    <li>PainShockThreshold</li>
+                    <li>CaravanRidingSpeedFactor</li>
+                    <li>LifespanFactor</li>
+                    <li>MeleeDamageFactor</li>
+                    <li>MeleeCooldownFactor</li>
+                    <li>MeleeArmorPenetration</li>
+                </possibleStatDefs>
+            </li>
+        </comps>
+    </HediffDef>
+
+    <HediffDef Name="BARNG_CapacityChangeBase" Abstract="True">
+        <hediffClass>BondedAnimalsRNG.HediffWithCapacityChange</hediffClass>
+        <description>This pawn has gained a capacity adjustment.</description>
+        <everCurableByItem>false</everCurableByItem>
+        <recordDownedTale>false</recordDownedTale>
+        <isBad>false</isBad>
+        <comps>
+            <li Class="BondedAnimalsRNG.HediffCompProperties_CapacityOffset">
+                <adjustmentRange>1.5~1.5</adjustmentRange>
+            </li>
+        </comps>
+    </HediffDef>
+
+    <HediffDef ParentName="BARNG_CapacityChangeBase">
+        <defName>BARNG_MovingCapacityChange</defName>
+        <label>moving</label>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>Moving</capacity>
+                        <postFactor>1</postFactor>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef ParentName="BARNG_CapacityChangeBase">
+        <defName>BARNG_ManipulationCapacityChange</defName>
+        <label>manipulation</label>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>Manipulation</capacity>
+                        <postFactor>1</postFactor>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef ParentName="BARNG_CapacityChangeBase">
+        <defName>BARNG_SightCapacityChange</defName>
+        <label>sight</label>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>Sight</capacity>
+                        <postFactor>1</postFactor>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef ParentName="BARNG_CapacityChangeBase">
+        <defName>BARNG_HearingCapacityChange</defName>
+        <label>hearing</label>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>Hearing</capacity>
+                        <postFactor>1</postFactor>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef ParentName="BARNG_CapacityChangeBase">
+        <defName>BARNG_BreathingCapacityChange</defName>
+        <label>breathing</label>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>Breathing</capacity>
+                        <postFactor>1</postFactor>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef ParentName="BARNG_CapacityChangeBase">
+        <defName>BARNG_BloodFiltrationCapacityChange</defName>
+        <label>blood</label>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>BloodFiltration</capacity>
+                        <postFactor>1</postFactor>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef ParentName="BARNG_CapacityChangeBase">
+        <defName>BARNG_BloodPumpingCapacityChange</defName>
+        <label>blood</label>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>BloodPumping</capacity>
+                        <postFactor>1</postFactor>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef ParentName="BARNG_CapacityChangeBase">
+        <defName>BARNG_MetabolismCapacityChange</defName>
+        <label>metabolism</label>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>Metabolism</capacity>
+                        <postFactor>1</postFactor>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+
+</Defs>
