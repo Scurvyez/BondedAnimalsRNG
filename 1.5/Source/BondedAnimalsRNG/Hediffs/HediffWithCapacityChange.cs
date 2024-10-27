@@ -6,6 +6,8 @@ namespace BondedAnimalsRNG
 {
     public class HediffWithCapacityChange : HediffWithComps
     {
+        public override Color LabelColor => BARNGLog.MessageMsgCol;
+        
         public override string Label
         {
             get
@@ -25,7 +27,5 @@ namespace BondedAnimalsRNG
                 return $"{def.stages.ElementAt(0).capMods.ElementAt(0).capacity.label} {sign}{adjustmentPercentage}";
             }
         }
-        
-        public override Color LabelColor => BARNGLog.MessageMsgCol;
     }
 }

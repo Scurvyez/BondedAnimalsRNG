@@ -31,7 +31,7 @@
         <isBad>false</isBad>
         <comps>
             <li Class="BondedAnimalsRNG.HediffCompProperties_CapacityOffset">
-                <adjustmentRange>1.5~1.5</adjustmentRange>
+                <adjustmentRange>1.05~1.5</adjustmentRange>
             </li>
         </comps>
     </HediffDef>

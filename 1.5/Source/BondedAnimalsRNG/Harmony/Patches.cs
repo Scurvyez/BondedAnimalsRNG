@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace BondedAnimalsRNG
@@ -43,45 +42,50 @@ namespace BondedAnimalsRNG
                     yield return instruction;
                     
                     yield return new CodeInstruction(OpCodes.Ldarg_2);
-                    yield return CodeInstruction.Call(typeof(Patches), nameof(DrawHediffRowHelper));
+                    yield return CodeInstruction.Call(typeof(PatchesHelper), nameof(PatchesHelper.DrawHediffRowHelper));
                     continue;
                 }
                 yield return instruction;
             }
         }
         
-        private static Color DrawHediffRowHelper(Color originalColor, IEnumerable<Hediff> diffs)
-        {
-            List<Hediff> enumerable = diffs.ToList();
-            bool hasCapacityChange = enumerable.Any(hediff => hediff.def.hediffClass == typeof(HediffWithCapacityChange));
-            bool hasInfection = enumerable.Any(hediff => hediff.def.isInfection || hediff.def.isBad);
-            
-            if (hasCapacityChange && !hasInfection)
-            {
-                return BARNGLog.MessageMsgCol;
-            }
-            return originalColor;
-        }
-        
         private static void Pawn_RelationsTrackerTick_CheckDevelopBondRelation_Postfix(Pawn ___pawn)
         {
-            if (___pawn is not { Spawned: true } || ___pawn.playerSettings == null) return;
-            Pawn respectedMaster = ___pawn.playerSettings.Master;
-
-            if (!___pawn.IsHashIntervalTick(2500) || respectedMaster == null) return;
-            if (___pawn.health.hediffSet.hediffs.Any(hediff => HediffCollections.CapacityChangeHediffs.Contains(hediff.def))) 
-                return;
+            if (!___pawn.RaceProps.Animal 
+                || ___pawn is not { Spawned: true } 
+                || ___pawn.playerSettings == null) return;
+            if (!___pawn.IsHashIntervalTick(2500)) return;
             
-            HediffWithCapacityChange hediffWCC = (HediffWithCapacityChange)HediffMaker.
-                MakeHediff(HediffCollections.CapacityChangeHediffs.RandomElement(), ___pawn);
-                
-            ___pawn.health.AddHediff(hediffWCC);
-                
-            if (PawnUtility.ShouldSendNotificationAbout(___pawn))
+            Pawn masterColonist = ___pawn.playerSettings.Master;
+            bool hasBondedColonist = ___pawn.Map?.mapPawns?.FreeColonistsSpawned
+                .Any(colonist => ___pawn.relations.DirectRelationExists(PawnRelationDefOf.Bond, colonist)) ?? false;
+            
+            if (masterColonist == null) return;
+            string message = null;
+            
+            if (BARNGSettings.OnlyBondedCapacityChanges && hasBondedColonist)
             {
-                Messages.Message($"The animal {___pawn.LabelShort} has developed a special bond.", 
-                    ___pawn, MessageTypeDefOf.PositiveEvent);
+                if (___pawn.health.hediffSet.hediffs.Any(hediff =>
+                        HediffCollections.CapacityChangeHediffs.Contains(hediff.def))) return;
+                
+                HediffDef randomHediff = HediffCollections.RandomCapacityChangeHediff;
+                ___pawn.health.AddHediff(randomHediff);
+                message = $"{___pawn.LabelShort} has developed a special bond with their master.";
             }
+            else if (!BARNGSettings.OnlyBondedCapacityChanges && !hasBondedColonist)
+            {
+                if (___pawn.health.hediffSet.hediffs.Any(hediff =>
+                        HediffCollections.CapacityChangeHediffs.Contains(hediff.def))) return;
+                
+                HediffDef randomHediff = HediffCollections.RandomCapacityChangeHediff;
+                ___pawn.health.AddHediff(randomHediff);
+                message = $"{___pawn.LabelShort} has grown in power by their master's side.";
+            }
+            
+            PatchesHelper.PawnCapacityChangeYears[___pawn] = GenLocalDate.DayOfYear(___pawn.Map?.Tile ?? 0);
+            
+            if (!PawnUtility.ShouldSendNotificationAbout(___pawn)) return;
+            Messages.Message(message, ___pawn, MessageTypeDefOf.PositiveEvent);
         }
         
         public static void PawnCapacityUtilityCalculateCapacityLevel_Postfix(ref float __result, HediffSet diffSet, PawnCapacityDef capacity)
@@ -90,8 +94,6 @@ namespace BondedAnimalsRNG
             {
                 if (!HediffCollections.CapacityChangeHediffs.Contains(hediff.def)) continue;
                 HediffComp_CapacityOffset capacityOffsetComp = hediff.TryGetComp<HediffComp_CapacityOffset>();
-                
-                BARNGLog.Message($"Original value: {__result}");
                 
                 if (capacityOffsetComp == null) continue;
                 List<PawnCapacityModifier> capMods = hediff.CapMods;
@@ -103,8 +105,6 @@ namespace BondedAnimalsRNG
                     
                     if (pawnCapacityModifier.capacity != capacity) continue;
                     float adjustment = capacityOffsetComp.randomAdjustmentValue;
-                    BARNGLog.Message($"Adjustment value: {adjustment}");
-                    
                     __result *= adjustment;
                 }
             }
@@ -112,21 +112,36 @@ namespace BondedAnimalsRNG
         
         private static void Pawn_RelationsTrackerRelationsTrackerTick_Postfix(Pawn ___pawn)
         {
-            if (___pawn == null) return;
-            if (!___pawn.IsHashIntervalTick(2500)) return;
-            if (___pawn.playerSettings == null) return;
-            
-            Pawn respectedMaster = ___pawn.playerSettings.Master;
-
-            if (respectedMaster != null) return;
+            if (!___pawn.RaceProps.Animal) return;
+            if (___pawn is not { Spawned: true } || ___pawn.playerSettings == null) return;
             if (___pawn.health?.hediffSet == null) return;
+            if (!___pawn.IsHashIntervalTick(2500)) return;
             
-            List<Hediff> hediffsToRemove = ___pawn.health.hediffSet.hediffs
-                .Where(hediff => hediff is HediffWithCapacityChange).ToList();
-
-            foreach (Hediff hediff in hediffsToRemove)
+            Pawn masterColonist = ___pawn.playerSettings.Master;
+            bool hasBondedColonist = ___pawn.Map?.mapPawns?.FreeColonistsSpawned
+                .Any(colonist => ___pawn.relations.DirectRelationExists(PawnRelationDefOf.Bond, colonist)) ?? false;
+            
+            List<Hediff> hediffsToRemove = [];
+            
+            if (BARNGSettings.OnlyBondedCapacityChanges && !hasBondedColonist)
             {
-                ___pawn.health.RemoveHediff(hediff);
+                hediffsToRemove = ___pawn.health.hediffSet.hediffs
+                    .Where(hediff => hediff is HediffWithCapacityChange).ToList();
+                
+                foreach (Hediff hediff in hediffsToRemove)
+                {
+                    ___pawn.health.RemoveHediff(hediff);
+                }
+            }
+            else if (!BARNGSettings.OnlyBondedCapacityChanges && masterColonist == null)
+            {
+                hediffsToRemove = ___pawn.health.hediffSet.hediffs
+                    .Where(hediff => hediff is HediffWithCapacityChange).ToList();
+                
+                foreach (Hediff hediff in hediffsToRemove)
+                {
+                    ___pawn.health.RemoveHediff(hediff);
+                }
             }
         }
     }

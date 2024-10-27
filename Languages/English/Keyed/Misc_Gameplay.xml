@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-    <FC_ModName>Fabled Cervidae</FC_ModName>
-    <FC_AnimalToggleLabel>Leave unchecked to allow natural wild spawning.</FC_AnimalToggleLabel>
-    <FC_AnimalToggleTooltip>Check to disable this animal from spawning naturally in biomes.</FC_AnimalToggleTooltip>
+    <BARNG_ModName>Bonded Animals RNG</BARNG_ModName>
 
-    <FC_OwnImmunitiesLabel>Own Immunities</FC_OwnImmunitiesLabel>
-    <FC_MasterImmunitiesLabel>Master's Immunities</FC_MasterImmunitiesLabel>
-    <FC_OwnImmunitiesDesc>Whether through some unknown biological evolutionary detour or through divine creation, this animal has developed natural immunities to the following ailments.</FC_OwnImmunitiesDesc>
-    <FC_MasterImmunitiesDesc>Through even more mysterious ways this animal's powers are able to permeate its master's physical being and act as a protective barrier.\n\nIf this animal is bonded to a colonist that colonist will benefit from immunities to the afflictions listed below.</FC_MasterImmunitiesDesc>
+    <BARNG_OnlyBondedCapacityChanges>Bonded animals only</BARNG_OnlyBondedCapacityChanges>
+    <BARNG_OnlyBondedCapacityChangesDesc>Check to ensure only animals in the colony with bonded colonists can gain random capacity buffs.n\n\Default: true</BARNG_OnlyBondedCapacityChangesDesc>
+
+    <BARNG_AllowYearlyCapacityChanges>Yearly capacity changes</BARNG_AllowYearlyCapacityChanges>
+    <BARNG_AllowYearlyCapacityChangesDesc>Check to allow additional yearly capacity buffs; after the initial buff.n\n\Default: true</BARNG_AllowYearlyCapacityChangesDesc>
 
 </LanguageData>
