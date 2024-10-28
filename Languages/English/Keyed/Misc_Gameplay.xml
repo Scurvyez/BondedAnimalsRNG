@@ -9,4 +9,7 @@
     <BARNG_AllowYearlyCapacityChanges>Yearly capacity changes</BARNG_AllowYearlyCapacityChanges>
     <BARNG_AllowYearlyCapacityChangesDesc>Check to allow additional yearly capacity buffs; after the initial buff.n\n\Default: true</BARNG_AllowYearlyCapacityChangesDesc>
 
+    <BARNG_BondedCapacityChange>{0} has developed a special bond with their master.</BARNG_BondedCapacityChange>
+    <BARNG_MasterCapacityChange>{0} has grown in power by their master's side.</BARNG_MasterCapacityChange>
+
 </LanguageData>

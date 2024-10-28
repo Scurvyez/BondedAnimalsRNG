@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -8,8 +9,6 @@ namespace BondedAnimalsRNG
     [StaticConstructorOnStartup]
     public class PatchesHelper
     {
-        public static readonly Dictionary<Pawn, int> PawnCapacityChangeYears  = new();
-        
         public static Color DrawHediffRowHelper(Color originalColor, IEnumerable<Hediff> diffs)
         {
             List<Hediff> enumerable = diffs.ToList();
@@ -21,6 +20,21 @@ namespace BondedAnimalsRNG
                 return BARNGLog.MessageMsgCol;
             }
             return originalColor;
+        }
+        
+        public static bool IsColonyAnimalWithValidHediffSet(Pawn pawn)
+        {
+            return pawn.RaceProps.Animal &&
+                   pawn is { Spawned: true } &&
+                   pawn.playerSettings != null &&
+                   pawn.health?.hediffSet != null &&
+                   pawn.IsHashIntervalTick(2500);
+        }
+        
+        public static bool HasBondedColonist(Pawn pawn)
+        {
+            return pawn.Map?.mapPawns?.FreeColonistsSpawned
+                .Any(colonist => pawn.relations.DirectRelationExists(PawnRelationDefOf.Bond, colonist)) ?? false;
         }
     }
 }

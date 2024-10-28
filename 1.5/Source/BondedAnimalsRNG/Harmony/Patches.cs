@@ -51,38 +51,34 @@ namespace BondedAnimalsRNG
         
         private static void Pawn_RelationsTrackerTick_CheckDevelopBondRelation_Postfix(Pawn ___pawn)
         {
-            if (!___pawn.RaceProps.Animal 
-                || ___pawn is not { Spawned: true } 
-                || ___pawn.playerSettings == null) return;
-            if (!___pawn.IsHashIntervalTick(2500)) return;
-            
+            if (!PatchesHelper.IsColonyAnimalWithValidHediffSet(___pawn)) return;
             Pawn masterColonist = ___pawn.playerSettings.Master;
-            bool hasBondedColonist = ___pawn.Map?.mapPawns?.FreeColonistsSpawned
-                .Any(colonist => ___pawn.relations.DirectRelationExists(PawnRelationDefOf.Bond, colonist)) ?? false;
+            bool hasBondedColonist = PatchesHelper.HasBondedColonist(___pawn);
             
             if (masterColonist == null) return;
+            bool giveHediff = false;
             string message = null;
+            string pawnName = ___pawn.Name != null ? ___pawn.Name.ToStringShort : ___pawn.LabelShort;
             
             if (BARNGSettings.OnlyBondedCapacityChanges && hasBondedColonist)
             {
-                if (___pawn.health.hediffSet.hediffs.Any(hediff =>
-                        HediffCollections.CapacityChangeHediffs.Contains(hediff.def))) return;
-                
-                HediffDef randomHediff = HediffCollections.RandomCapacityChangeHediff;
-                ___pawn.health.AddHediff(randomHediff);
-                message = $"{___pawn.LabelShort} has developed a special bond with their master.";
+                giveHediff = true;
+                message = "BARNG_BondedCapacityChange".Translate(pawnName);
             }
-            else if (!BARNGSettings.OnlyBondedCapacityChanges && !hasBondedColonist)
+            else if (!BARNGSettings.OnlyBondedCapacityChanges)
+            {
+                giveHediff = true;
+                message = "BARNG_MasterCapacityChange".Translate(pawnName);
+            }
+            
+            if (giveHediff)
             {
                 if (___pawn.health.hediffSet.hediffs.Any(hediff =>
                         HediffCollections.CapacityChangeHediffs.Contains(hediff.def))) return;
                 
                 HediffDef randomHediff = HediffCollections.RandomCapacityChangeHediff;
                 ___pawn.health.AddHediff(randomHediff);
-                message = $"{___pawn.LabelShort} has grown in power by their master's side.";
             }
-            
-            PatchesHelper.PawnCapacityChangeYears[___pawn] = GenLocalDate.DayOfYear(___pawn.Map?.Tile ?? 0);
             
             if (!PawnUtility.ShouldSendNotificationAbout(___pawn)) return;
             Messages.Message(message, ___pawn, MessageTypeDefOf.PositiveEvent);
@@ -112,36 +108,33 @@ namespace BondedAnimalsRNG
         
         private static void Pawn_RelationsTrackerRelationsTrackerTick_Postfix(Pawn ___pawn)
         {
-            if (!___pawn.RaceProps.Animal) return;
-            if (___pawn is not { Spawned: true } || ___pawn.playerSettings == null) return;
-            if (___pawn.health?.hediffSet == null) return;
-            if (!___pawn.IsHashIntervalTick(2500)) return;
-            
+            if (!PatchesHelper.IsColonyAnimalWithValidHediffSet(___pawn)) return;
             Pawn masterColonist = ___pawn.playerSettings.Master;
-            bool hasBondedColonist = ___pawn.Map?.mapPawns?.FreeColonistsSpawned
-                .Any(colonist => ___pawn.relations.DirectRelationExists(PawnRelationDefOf.Bond, colonist)) ?? false;
-            
-            List<Hediff> hediffsToRemove = [];
-            
-            if (BARNGSettings.OnlyBondedCapacityChanges && !hasBondedColonist)
+            bool hasBondedColonist = PatchesHelper.HasBondedColonist(___pawn);
+
+            if (___pawn.health.hediffSet.hediffs.Any(hediff => HediffCollections.CapacityChangeHediffs.Contains(hediff.def)))
             {
-                hediffsToRemove = ___pawn.health.hediffSet.hediffs
-                    .Where(hediff => hediff is HediffWithCapacityChange).ToList();
-                
-                foreach (Hediff hediff in hediffsToRemove)
+                List<Hediff> hediffsToRemove = [];
+                bool removeHediffs = false;
+            
+                if (BARNGSettings.OnlyBondedCapacityChanges && !hasBondedColonist)
                 {
-                    ___pawn.health.RemoveHediff(hediff);
+                    if (masterColonist == null)
+                    {
+                        removeHediffs = true;
+                    }
                 }
-            }
-            else if (!BARNGSettings.OnlyBondedCapacityChanges && masterColonist == null)
-            {
-                hediffsToRemove = ___pawn.health.hediffSet.hediffs
-                    .Where(hediff => hediff is HediffWithCapacityChange).ToList();
-                
-                foreach (Hediff hediff in hediffsToRemove)
+                else if (!BARNGSettings.OnlyBondedCapacityChanges && masterColonist == null)
                 {
-                    ___pawn.health.RemoveHediff(hediff);
+                    removeHediffs = true;
                 }
+
+                if (removeHediffs)
+                {
+                    hediffsToRemove = ___pawn.health.hediffSet.hediffs
+                        .Where(hediff => hediff is HediffWithCapacityChange).ToList();
+                    hediffsToRemove.ForEach(hediff => ___pawn.health.RemoveHediff(hediff));
+                }   
             }
         }
     }

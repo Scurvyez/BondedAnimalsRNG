@@ -50,10 +50,6 @@ namespace BondedAnimalsRNG
                 ref _settings._onlyBondedCapacityChanges, "BARNG_OnlyBondedCapacityChangesDesc".Translate());
             listLeft.Gap(_newSectionGap);
             
-            listLeft.CheckboxLabeled("BARNG_AllowYearlyCapacityChanges".Translate(), 
-                ref _settings._allowYearlyCapacityChanges, "BARNG_AllowYearlyCapacityChangesDesc".Translate());
-            listLeft.Gap(_newSectionGap);
-            
             listLeft.End();
         }
     }
