@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="MarketValue"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MarketValue"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MarketValue"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="MaxHitPoints"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MaxHitPoints"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MaxHitPoints"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="MoveSpeed"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MoveSpeed"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MoveSpeed"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="ToxicResistance"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="ToxicResistance"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="ToxicResistance"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="PainShockThreshold"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="PainShockThreshold"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="PainShockThreshold"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
+</Patch>

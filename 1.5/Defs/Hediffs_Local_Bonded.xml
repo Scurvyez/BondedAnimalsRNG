@@ -4,21 +4,20 @@
     <HediffDef>
         <defName>BARNG_StatChange</defName>
         <label>stat change</label>
-        <labelNoun>a stat change</labelNoun>
-        <description>This pawn has gained a new stat adjustment</description>
-        <hediffClass>HediffWithComps</hediffClass>
+        <description>This pawn has gained a new stat adjustment.</description>
+        <everCurableByItem>false</everCurableByItem>
+        <recordDownedTale>false</recordDownedTale>
+        <isBad>false</isBad>
+        <hediffClass>BondedAnimalsRNG.HediffWithStatChange</hediffClass>
         <comps>
             <li Class="BondedAnimalsRNG.HediffCompProperties_StatOffset">
-                <possibleStatDefs>
-                    <li>InjuryHealingFactor</li>
-                    <li>CarryingCapacity</li>
-                    <li>PainShockThreshold</li>
-                    <li>CaravanRidingSpeedFactor</li>
-                    <li>LifespanFactor</li>
-                    <li>MeleeDamageFactor</li>
-                    <li>MeleeCooldownFactor</li>
-                    <li>MeleeArmorPenetration</li>
-                </possibleStatDefs>
+                <hediffCompData>
+                    <MarketValue>1.1~2</MarketValue>
+                    <MaxHitPoints>1.1~2</MaxHitPoints>
+                    <MoveSpeed>1.1~2</MoveSpeed>
+                    <ToxicResistance>1.1~2</ToxicResistance>
+                    <PainShockThreshold>1.1~2</PainShockThreshold>
+                </hediffCompData>
             </li>
         </comps>
     </HediffDef>
@@ -31,7 +30,7 @@
         <isBad>false</isBad>
         <comps>
             <li Class="BondedAnimalsRNG.HediffCompProperties_CapacityOffset">
-                <adjustmentRange>1.05~1.5</adjustmentRange>
+                <adjustmentRange>1.05~2</adjustmentRange>
             </li>
         </comps>
     </HediffDef>

@@ -33,10 +33,8 @@ namespace BondedAnimalsRNG
             List<CodeInstruction> instructionList = instructions.ToList();
             FieldInfo redColorField = typeof(HealthUtility).GetField("RedColor");
             
-            for (int i = 0; i < instructionList.Count; i++)
+            foreach (CodeInstruction instruction in instructionList)
             {
-                CodeInstruction instruction = instructionList[i];
-
                 if (instruction.opcode == OpCodes.Ldsfld && (FieldInfo)instruction.operand == redColorField)
                 {
                     yield return instruction;
@@ -60,24 +58,48 @@ namespace BondedAnimalsRNG
             string message = null;
             string pawnName = ___pawn.Name != null ? ___pawn.Name.ToStringShort : ___pawn.LabelShort;
             
-            if (BARNGSettings.OnlyBondedCapacityChanges && hasBondedColonist)
+            if (BARNGSettings.OnlyBondedChanges && hasBondedColonist)
             {
                 giveHediff = true;
-                message = "BARNG_BondedCapacityChange".Translate(pawnName);
+                message = "BARNG_BondedChange".Translate(pawnName);
             }
-            else if (!BARNGSettings.OnlyBondedCapacityChanges)
+            else if (!BARNGSettings.OnlyBondedChanges)
             {
                 giveHediff = true;
-                message = "BARNG_MasterCapacityChange".Translate(pawnName);
+                message = hasBondedColonist 
+                    ? "BARNG_BondedChange".Translate(pawnName) 
+                    : "BARNG_MasterChange".Translate(pawnName);
             }
             
             if (giveHediff)
             {
                 if (___pawn.health.hediffSet.hediffs.Any(hediff =>
-                        HediffCollections.CapacityChangeHediffs.Contains(hediff.def))) return;
+                        HediffCollections.CapacityChangeHediffs.Contains(hediff.def)
+                        || hediff.def == BARNGDefOf.BARNG_StatChange)) return;
                 
-                HediffDef randomHediff = HediffCollections.RandomCapacityChangeHediff;
-                ___pawn.health.AddHediff(randomHediff);
+                HediffDef randomHediff = Rand.Chance(0.5f) 
+                    ? HediffCollections.RandomCapacityChangeHediff 
+                    : BARNGDefOf.BARNG_StatChange;
+                
+                Hediff hediffInstance = ___pawn.health.AddHediff(randomHediff);
+                
+                if (randomHediff == BARNGDefOf.BARNG_StatChange)
+                {
+                    if (hediffInstance.TryGetComp<HediffComp_StatOffset>() is { } statOffsetComp)
+                    {
+                        message += $" {statOffsetComp.chosenStat.LabelCap} x{statOffsetComp.statAdjustment:F2}";
+                    }
+                }
+                else
+                {
+                    if (hediffInstance.TryGetComp<HediffComp_CapacityOffset>() is { } capOffsetComp)
+                    {
+                        float adjustmentValue = capOffsetComp.randomAdjustmentValue;
+                        string adjustmentPercentage = (adjustmentValue * 100f - 100f).ToString("F0") + "%";
+                        string sign = adjustmentValue < 1f ? "" : "+";
+                        message += $" {capOffsetComp.capacityDef.LabelCap} {sign}{adjustmentPercentage}";
+                    }
+                }
             }
             
             if (!PawnUtility.ShouldSendNotificationAbout(___pawn)) return;
@@ -95,10 +117,8 @@ namespace BondedAnimalsRNG
                 List<PawnCapacityModifier> capMods = hediff.CapMods;
                 
                 if (capMods == null) continue;
-                for (int i = 0; i < capMods.Count; i++)
+                foreach (PawnCapacityModifier pawnCapacityModifier in capMods)
                 {
-                    PawnCapacityModifier pawnCapacityModifier = capMods[i];
-                    
                     if (pawnCapacityModifier.capacity != capacity) continue;
                     float adjustment = capacityOffsetComp.randomAdjustmentValue;
                     __result *= adjustment;
@@ -112,27 +132,29 @@ namespace BondedAnimalsRNG
             Pawn masterColonist = ___pawn.playerSettings.Master;
             bool hasBondedColonist = PatchesHelper.HasBondedColonist(___pawn);
 
-            if (___pawn.health.hediffSet.hediffs.Any(hediff => HediffCollections.CapacityChangeHediffs.Contains(hediff.def)))
+            if (___pawn.health.hediffSet.hediffs.Any(hediff => HediffCollections.CapacityChangeHediffs.Contains(hediff.def)
+                || hediff.def == BARNGDefOf.BARNG_StatChange))
             {
-                List<Hediff> hediffsToRemove = [];
                 bool removeHediffs = false;
-            
-                if (BARNGSettings.OnlyBondedCapacityChanges && !hasBondedColonist)
+                
+                if (BARNGSettings.OnlyBondedChanges && !hasBondedColonist)
                 {
                     if (masterColonist == null)
                     {
                         removeHediffs = true;
                     }
                 }
-                else if (!BARNGSettings.OnlyBondedCapacityChanges && masterColonist == null)
+                else if (!BARNGSettings.OnlyBondedChanges && masterColonist == null)
                 {
                     removeHediffs = true;
                 }
-
+                
                 if (removeHediffs)
                 {
-                    hediffsToRemove = ___pawn.health.hediffSet.hediffs
-                        .Where(hediff => hediff is HediffWithCapacityChange).ToList();
+                    List<Hediff> hediffsToRemove = ___pawn.health.hediffSet.hediffs
+                        .Where(hediff => hediff is HediffWithCapacityChange || 
+                                         hediff.def == BARNGDefOf.BARNG_StatChange)
+                        .ToList();
                     hediffsToRemove.ForEach(hediff => ___pawn.health.RemoveHediff(hediff));
                 }   
             }

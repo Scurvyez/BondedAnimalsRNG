@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using RimWorld;
 using Verse;
 
 namespace BondedAnimalsRNG
 {
     public class HediffCompProperties_StatOffset : HediffCompProperties
     {
-        public List<StatDef> possibleStatDefs = new ();
+        public List<HediffCompData> hediffCompData = new ();
         
         public HediffCompProperties_StatOffset()
         {

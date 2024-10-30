@@ -11,14 +11,14 @@ namespace BondedAnimalsRNG
             _instance = this;
         }
         
-        public static bool OnlyBondedCapacityChanges => _instance._onlyBondedCapacityChanges;
+        public static bool OnlyBondedChanges => _instance._onlyBondedChanges;
         
-        public bool _onlyBondedCapacityChanges = true;
+        public bool _onlyBondedChanges = true;
         
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref _onlyBondedCapacityChanges, "_onlyBondedCapacityChanges", true);
+            Scribe_Values.Look(ref _onlyBondedChanges, "_onlyBondedChanges", true);
         }
     }
 }

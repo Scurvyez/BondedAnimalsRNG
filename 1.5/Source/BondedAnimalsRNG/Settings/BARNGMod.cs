@@ -46,8 +46,8 @@ namespace BondedAnimalsRNG
             Listing_Standard listLeft = new();
             listLeft.Begin(leftRect);
             
-            listLeft.CheckboxLabeled("BARNG_OnlyBondedCapacityChanges".Translate(), 
-                ref _settings._onlyBondedCapacityChanges, "BARNG_OnlyBondedCapacityChangesDesc".Translate());
+            listLeft.CheckboxLabeled("BARNG_OnlyBondedChanges".Translate(), 
+                ref _settings._onlyBondedChanges, "BARNG_OnlyBondedChangesDesc".Translate());
             listLeft.Gap(_newSectionGap);
             
             listLeft.End();

@@ -12,10 +12,11 @@ namespace BondedAnimalsRNG
         public static Color DrawHediffRowHelper(Color originalColor, IEnumerable<Hediff> diffs)
         {
             List<Hediff> enumerable = diffs.ToList();
-            bool hasCapacityChange = enumerable.Any(hediff => hediff.def.hediffClass == typeof(HediffWithCapacityChange));
+            bool hasChange = enumerable.Any(hediff => hediff.def.hediffClass == typeof(HediffWithCapacityChange) || 
+                                                      hediff.def == BARNGDefOf.BARNG_StatChange);
             bool hasInfection = enumerable.Any(hediff => hediff.def.isInfection || hediff.def.isBad);
             
-            if (hasCapacityChange && !hasInfection)
+            if (hasChange && !hasInfection)
             {
                 return BARNGLog.MessageMsgCol;
             }
@@ -25,9 +26,7 @@ namespace BondedAnimalsRNG
         public static bool IsColonyAnimalWithValidHediffSet(Pawn pawn)
         {
             return pawn.RaceProps.Animal &&
-                   pawn is { Spawned: true } &&
-                   pawn.playerSettings != null &&
-                   pawn.health?.hediffSet != null &&
+                   pawn is { Spawned: true, playerSettings: not null, health.hediffSet: not null } &&
                    pawn.IsHashIntervalTick(2500);
         }
         
