@@ -1,24 +1,38 @@
+using System.Collections.Generic;
 using Verse;
 
 namespace BondedAnimalsRNG
 {
     public class BARNGSettings : ModSettings
     {
-        private static BARNGSettings _instance;
+        public static BARNGSettings Instance;
         
         public BARNGSettings()
         {
-            _instance = this;
+            Instance = this;
         }
         
-        public static bool OnlyBondedChanges => _instance._onlyBondedChanges;
+        public static bool OnlyBondedChanges => Instance.onlyBondedChanges;
+        public bool onlyBondedChanges = true;
+
+        public static bool AllowYearlyChanges => Instance.allowYearlyChanges;
+        public bool allowYearlyChanges = false;
         
-        public bool _onlyBondedChanges = true;
+        public Dictionary<string, bool> hediffToggles = new ();
+        private List<string> _hediffToggleKeys;
+        private List<bool> _hediffToggleValues;
+        
+        public bool IsHediffEnabled(string defName)
+        {
+            return !hediffToggles.TryGetValue(defName, out bool isEnabled) || !isEnabled;
+        }
         
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref _onlyBondedChanges, "_onlyBondedChanges", true);
+            Scribe_Values.Look(ref onlyBondedChanges, "onlyBondedChanges", true);
+            Scribe_Values.Look(ref allowYearlyChanges, "allowYearlyChanges", false);
+            Scribe_Collections.Look(ref hediffToggles, "hediffToggles", LookMode.Value, LookMode.Value, ref _hediffToggleKeys, ref _hediffToggleValues);
         }
     }
 }

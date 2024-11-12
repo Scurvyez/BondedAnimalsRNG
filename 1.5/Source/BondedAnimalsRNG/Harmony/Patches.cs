@@ -49,6 +49,7 @@ namespace BondedAnimalsRNG
         
         private static void Pawn_RelationsTrackerTick_CheckDevelopBondRelation_Postfix(Pawn ___pawn)
         {
+            if (!___pawn.IsHashIntervalTick(2500)) return;
             if (!PatchesHelper.IsColonyAnimalWithValidHediffSet(___pawn)) return;
             Pawn masterColonist = ___pawn.playerSettings.Master;
             bool hasBondedColonist = PatchesHelper.HasBondedColonist(___pawn);
@@ -56,7 +57,9 @@ namespace BondedAnimalsRNG
             if (masterColonist == null) return;
             bool giveHediff = false;
             string message = null;
-            string pawnName = ___pawn.Name != null ? ___pawn.Name.ToStringShort : ___pawn.LabelShort;
+            string pawnName = ___pawn.Name != null 
+                ? ___pawn.Name.ToStringShort 
+                : ___pawn.LabelShort;
             
             if (BARNGSettings.OnlyBondedChanges && hasBondedColonist)
             {
@@ -73,12 +76,14 @@ namespace BondedAnimalsRNG
             
             if (giveHediff)
             {
+                
                 if (___pawn.health.hediffSet.hediffs.Any(hediff =>
                         HediffCollections.CapacityChangeHediffs.Contains(hediff.def)
                         || hediff.def == BARNGDefOf.BARNG_StatChange)) return;
                 
-                HediffDef randomHediff = Rand.Chance(0.5f) 
-                    ? HediffCollections.RandomCapacityChangeHediff 
+                List<HediffDef> enabledHediffs = HediffCollections.EnabledCapacityChangeHediffs().ToList();
+                HediffDef randomHediff = Rand.Chance(0.9f) && enabledHediffs.Any()
+                    ? enabledHediffs.RandomElement() 
                     : BARNGDefOf.BARNG_StatChange;
                 
                 Hediff hediffInstance = ___pawn.health.AddHediff(randomHediff);
@@ -128,6 +133,7 @@ namespace BondedAnimalsRNG
         
         private static void Pawn_RelationsTrackerRelationsTrackerTick_Postfix(Pawn ___pawn)
         {
+            if (!___pawn.IsHashIntervalTick(2500)) return;
             if (!PatchesHelper.IsColonyAnimalWithValidHediffSet(___pawn)) return;
             Pawn masterColonist = ___pawn.playerSettings.Master;
             bool hasBondedColonist = PatchesHelper.HasBondedColonist(___pawn);

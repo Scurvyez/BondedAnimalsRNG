@@ -1,4 +1,5 @@
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace BondedAnimalsRNG
@@ -9,17 +10,28 @@ namespace BondedAnimalsRNG
         {
             if (req.Thing is not Pawn pawn) return;
             float adjustment = GetStatOffsetFromHediff(pawn, parentStat);
-            val *= adjustment;
+            
+            if (Mathf.Approximately(val, 0f))
+            {
+                val = 1f;
+                val *= adjustment;
+            }
+            else
+            {
+                val *= adjustment;   
+            }
         }
         
         public override string ExplanationPart(StatRequest req)
         {
             if (req.Thing is not Pawn pawn) return null;
             float adjustment = GetStatOffsetFromHediff(pawn, parentStat);
-
+            
             if (adjustment < 1.1f) return null;
             bool hasBondedColonist = PatchesHelper.HasBondedColonist(pawn);
-            return hasBondedColonist ? $"Bonded master factor: x{adjustment:F2}" : $"Master factor: x{adjustment:F2}";
+            return hasBondedColonist
+                ? "BARNG_BondedMasterFactor".Translate() + $"x{adjustment:F2}"
+                : "BARNG_MasterFactor".Translate() + $"x{adjustment:F2}";
         }
         
         private static float GetStatOffsetFromHediff(Pawn pawn, StatDef statDef)

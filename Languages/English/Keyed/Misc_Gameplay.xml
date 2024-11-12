@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
+    <!-- settings -->
+
     <BARNG_ModName>Bonded Animals RNG</BARNG_ModName>
 
+    <BARNG_DefaultTrue>Default: true</BARNG_DefaultTrue>
+    <BARNG_DefaultFalse>Default: false</BARNG_DefaultFalse>
+
     <BARNG_OnlyBondedChanges>Bonded animals only</BARNG_OnlyBondedChanges>
-    <BARNG_OnlyBondedChangesDesc>Check to ensure only animals in the colony with bonded colonists can gain random capacity/stat buffs.n\n\Default: true (this does severely limit the mod as a whole)</BARNG_OnlyBondedChangesDesc>
 
-    <BARNG_AllowYearlyCapacityChanges>Yearly capacity changes</BARNG_AllowYearlyCapacityChanges>
-    <BARNG_AllowYearlyCapacityChangesDesc>Check to allow additional yearly capacity buffs; after the initial buff.n\n\Default: true</BARNG_AllowYearlyCapacityChangesDesc>
+    <BARNG_FrequencyToggle>Frequency Toggle / </BARNG_FrequencyToggle>
+    <BARNG_AllowYearlyChanges>Yearly buffs allowed</BARNG_AllowYearlyChanges>
+    <BARNG_AllowYearlyChangesDesc>Check to allow additional yearly capacity/stat buffs; after the initial buff.</BARNG_AllowYearlyChangesDesc>
 
+    <BARNG_ConditionToggle>Condition Toggle / </BARNG_ConditionToggle>
+    <BARNG_ConditionToggleDesc>Check to ensure only tamed animals in the colony with bonded colonists can gain random capacity/stat buffs. If unchecked any tamed animal within the colony can gain capacity/stat buffs so long as said animal has a master.</BARNG_ConditionToggleDesc>
+
+    <BARNG_CapacityToggles>Capacity Toggles / </BARNG_CapacityToggles>
+    <BARNG_CapacityTogglesDesc>Leave unchecked to include in the pool of available capacities to be buffed if a buff should be applied.</BARNG_CapacityTogglesDesc>
+
+    <!-- random other strings -->
+
+    <BARNG_NA>N/A</BARNG_NA>
     <BARNG_BondedChange>{0} has developed a special bond with their master.</BARNG_BondedChange>
     <BARNG_MasterChange>{0} has grown in power by their master's side.</BARNG_MasterChange>
+    <BARNG_BondedMasterFactor>Bonded master factor: </BARNG_BondedMasterFactor>
+    <BARNG_MasterFactor>Master factor: </BARNG_MasterFactor>
 
 </LanguageData>

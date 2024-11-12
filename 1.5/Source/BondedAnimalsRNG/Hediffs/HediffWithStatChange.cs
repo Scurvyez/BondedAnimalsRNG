@@ -12,7 +12,7 @@ namespace BondedAnimalsRNG
         {
             get
             {
-                string adjustmentPercentage = "N/A";
+                string adjustmentPercentage = "BARNG_NA".Translate();
                 StatDef stat = null;
                 
                 foreach (HediffComp comp in comps)

@@ -1,14 +1,17 @@
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace BondedAnimalsRNG
 {
     public static class HediffCollections
     {
-        public static HediffDef RandomCapacityChangeHediff => CapacityChangeHediffs.Count == 0 
-            ? null : CapacityChangeHediffs[Rand.Range(0, CapacityChangeHediffs.Count)];
+        public static IEnumerable<HediffDef> EnabledCapacityChangeHediffs()
+        {
+            return CapacityChangeHediffs.Where(hediff => BARNGSettings.Instance.IsHediffEnabled(hediff.defName));
+        }
         
-        public static List<HediffDef> CapacityChangeHediffs = 
+        public static readonly List<HediffDef> CapacityChangeHediffs = 
         [
             BARNGDefOf.BARNG_MovingCapacityChange,
             BARNGDefOf.BARNG_ManipulationCapacityChange,

@@ -12,7 +12,7 @@ namespace BondedAnimalsRNG
         {
             get
             {
-                string adjustmentPercentage = "N/A";
+                string adjustmentPercentage = "BARNG_NA".Translate();
                 float adjustmentValue = 0f;
                 
                 foreach (HediffComp comp in comps)

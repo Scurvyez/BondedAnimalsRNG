@@ -91,4 +91,76 @@
         </match>
     </Operation>
 
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="MeleeDPS"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MeleeDPS"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MeleeDPS"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="MeleeArmorPenetration"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MeleeArmorPenetration"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MeleeArmorPenetration"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="MeleeHitChance"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MeleeHitChance"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MeleeHitChance"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/StatDef[defName="MeleeDodgeChance"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MeleeDodgeChance"]</xpath>
+            <value>
+                <parts>
+                    <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+                </parts>
+            </value>
+        </nomatch>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/StatDef[defName="MeleeDodgeChance"]/parts</xpath>
+            <value>
+                <li Class="BondedAnimalsRNG.StatPart_HediffStatOffset" />
+            </value>
+        </match>
+    </Operation>
+
 </Patch>
