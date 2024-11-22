@@ -56,7 +56,8 @@ namespace BondedAnimalsRNG
             
             if (masterColonist == null) return;
             bool giveHediff = false;
-            string message = null;
+            string messageStart = null;
+            string messageEnd = null;
             string pawnName = ___pawn.Name != null 
                 ? ___pawn.Name.ToStringShort 
                 : ___pawn.LabelShort;
@@ -64,51 +65,27 @@ namespace BondedAnimalsRNG
             if (BARNGSettings.OnlyBondedChanges && hasBondedColonist)
             {
                 giveHediff = true;
-                message = "BARNG_BondedChange".Translate(pawnName);
+                messageStart = "BARNG_BondedChange".Translate(pawnName);
             }
             else if (!BARNGSettings.OnlyBondedChanges)
             {
                 giveHediff = true;
-                message = hasBondedColonist 
+                messageStart = hasBondedColonist 
                     ? "BARNG_BondedChange".Translate(pawnName) 
                     : "BARNG_MasterChange".Translate(pawnName);
             }
             
             if (giveHediff)
             {
-                
                 if (___pawn.health.hediffSet.hediffs.Any(hediff =>
                         HediffCollections.CapacityChangeHediffs.Contains(hediff.def)
                         || hediff.def == BARNGDefOf.BARNG_StatChange)) return;
-                
-                List<HediffDef> enabledHediffs = HediffCollections.EnabledCapacityChangeHediffs().ToList();
-                HediffDef randomHediff = Rand.Chance(0.9f) && enabledHediffs.Any()
-                    ? enabledHediffs.RandomElement() 
-                    : BARNGDefOf.BARNG_StatChange;
-                
-                Hediff hediffInstance = ___pawn.health.AddHediff(randomHediff);
-                
-                if (randomHediff == BARNGDefOf.BARNG_StatChange)
-                {
-                    if (hediffInstance.TryGetComp<HediffComp_StatOffset>() is { } statOffsetComp)
-                    {
-                        message += $" {statOffsetComp.chosenStat.LabelCap} x{statOffsetComp.statAdjustment:F2}";
-                    }
-                }
-                else
-                {
-                    if (hediffInstance.TryGetComp<HediffComp_CapacityOffset>() is { } capOffsetComp)
-                    {
-                        float adjustmentValue = capOffsetComp.randomAdjustmentValue;
-                        string adjustmentPercentage = (adjustmentValue * 100f - 100f).ToString("F0") + "%";
-                        string sign = adjustmentValue < 1f ? "" : "+";
-                        message += $" {capOffsetComp.capacityDef.LabelCap} {sign}{adjustmentPercentage}";
-                    }
-                }
+                    
+                PatchesHelper.TryGiveInitialOrCyclicalHediff(___pawn, out messageEnd);
             }
             
             if (!PawnUtility.ShouldSendNotificationAbout(___pawn)) return;
-            Messages.Message(message, ___pawn, MessageTypeDefOf.PositiveEvent);
+            Messages.Message(messageStart + messageEnd, ___pawn, MessageTypeDefOf.PositiveEvent);
         }
         
         public static void PawnCapacityUtilityCalculateCapacityLevel_Postfix(ref float __result, HediffSet diffSet, PawnCapacityDef capacity)

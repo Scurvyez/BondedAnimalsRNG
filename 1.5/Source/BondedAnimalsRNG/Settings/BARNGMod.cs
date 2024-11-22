@@ -39,7 +39,7 @@ namespace BondedAnimalsRNG
             Rect rightRect = new (inRect.x + halfWidth + 10f, inRect.y, halfWidth - 10f, inRect.height);
             
             DrawLeftSideSettings(leftRect);
-            DrawRightSideSettings(rightRect);
+            //DrawRightSideSettings(rightRect);
         }
         
         private void DrawLeftSideSettings(Rect leftRect)
@@ -78,14 +78,8 @@ namespace BondedAnimalsRNG
         {
             Listing_Standard listRight = new();
             listRight.Begin(rightRect);
-            
-            listRight.Label("BARNG_FrequencyToggle".Translate().Colorize(_headerTextColor) + 
-                            "BARNG_DefaultFalse".Translate().Colorize(_headerTextColor));
-            listRight.Label("BARNG_AllowYearlyChangesDesc".Translate());
-            listRight.Gap(_headerTextGap);
-            
-            listRight.CheckboxLabeled("BARNG_AllowYearlyChanges".Translate(), ref _settings.allowYearlyChanges);
-            listRight.Gap(_newSectionGap);
+
+            // nothing here atm lol
             
             listRight.End();
         }

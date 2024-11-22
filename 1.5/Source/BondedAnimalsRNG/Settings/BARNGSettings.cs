@@ -14,9 +14,6 @@ namespace BondedAnimalsRNG
         
         public static bool OnlyBondedChanges => Instance.onlyBondedChanges;
         public bool onlyBondedChanges = true;
-
-        public static bool AllowYearlyChanges => Instance.allowYearlyChanges;
-        public bool allowYearlyChanges = false;
         
         public Dictionary<string, bool> hediffToggles = new ();
         private List<string> _hediffToggleKeys;
@@ -31,7 +28,6 @@ namespace BondedAnimalsRNG
         {
             base.ExposeData();
             Scribe_Values.Look(ref onlyBondedChanges, "onlyBondedChanges", true);
-            Scribe_Values.Look(ref allowYearlyChanges, "allowYearlyChanges", false);
             Scribe_Collections.Look(ref hediffToggles, "hediffToggles", LookMode.Value, LookMode.Value, ref _hediffToggleKeys, ref _hediffToggleValues);
         }
     }

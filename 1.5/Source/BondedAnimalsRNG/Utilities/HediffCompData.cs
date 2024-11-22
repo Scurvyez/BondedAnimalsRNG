@@ -8,18 +8,18 @@ namespace BondedAnimalsRNG
     {
         public StatDef randomStat = null;
         public FloatRange statAdjustmentRange = new (1, 1);
-
+        
         public HediffCompData()
         {
             
         }
-
+        
         public HediffCompData(StatDef randomStat, FloatRange statAdjustmentRange)
         {
             this.randomStat = randomStat;
             this.statAdjustmentRange = statAdjustmentRange;
         }
-
+        
         public void LoadDataFromXmlCustom(XmlNode xmlRoot)
         {
             DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "randomStat", xmlRoot.Name);

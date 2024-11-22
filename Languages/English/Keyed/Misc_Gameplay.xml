@@ -10,17 +10,13 @@
 
     <BARNG_OnlyBondedChanges>Bonded animals only</BARNG_OnlyBondedChanges>
 
-    <BARNG_FrequencyToggle>Frequency Toggle / </BARNG_FrequencyToggle>
-    <BARNG_AllowYearlyChanges>Yearly buffs allowed</BARNG_AllowYearlyChanges>
-    <BARNG_AllowYearlyChangesDesc>Check to allow additional yearly capacity/stat buffs; after the initial buff.</BARNG_AllowYearlyChangesDesc>
-
     <BARNG_ConditionToggle>Condition Toggle / </BARNG_ConditionToggle>
     <BARNG_ConditionToggleDesc>Check to ensure only tamed animals in the colony with bonded colonists can gain random capacity/stat buffs. If unchecked any tamed animal within the colony can gain capacity/stat buffs so long as said animal has a master.</BARNG_ConditionToggleDesc>
 
     <BARNG_CapacityToggles>Capacity Toggles / </BARNG_CapacityToggles>
     <BARNG_CapacityTogglesDesc>Leave unchecked to include in the pool of available capacities to be buffed if a buff should be applied.</BARNG_CapacityTogglesDesc>
 
-    <!-- random other strings -->
+    <!-- UI / random other strings -->
 
     <BARNG_NA>N/A</BARNG_NA>
     <BARNG_BondedChange>{0} has developed a special bond with their master.</BARNG_BondedChange>

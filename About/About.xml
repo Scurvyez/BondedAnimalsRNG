@@ -11,7 +11,29 @@
 Discord: steveo.o
 steam: Scurvyez
 
-This mod adds a little variety to the animals of your colony. When an animal becomes bonded to a colonist, said animal will gain a random skill alteration. These can be either buffs or debuffs and are permanent. May the odds be ever in your favor.
+This mod adds a little variety to the animals of your colony. When an animal becomes bonded to a colonist (or simply has a master), said animal will gain a random skill/capacity buff. These buffs remain on the animal unless the animal loses its bond/master.
+Check the mod settings to allow any colony animal with a master to receive buffs instead of only bonded animals along with other options.
+
+The stats that can be affected are...
+    - MarketValue
+    - MaxHitPoints
+    - MoveSpeed
+    - ToxicResistance
+    - PainShockThreshold
+    - MeleeDPS
+    - MeleeArmorPenetration
+    - MeleeHitChance
+    - MeleeDodgeChance
+
+The capacities that can be affected are...
+    - Moving
+    - Manipulation
+    - Sight
+    - Hearing
+    - Breathing
+    - BloodFiltration
+    - BloodPumping
+    - Metabolism
     </description>
 
     <loadAfter>
