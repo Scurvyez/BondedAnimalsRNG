@@ -1,0 +1,4 @@
+S:\Games\Steam\steamapps\common\RimWorld\Mods\BondedAnimalsRNG\1.6\Assemblies\BondedAnimalsRNG.dll
+S:\Games\Steam\steamapps\common\RimWorld\Mods\BondedAnimalsRNG\1.6\Source\BondedAnimalsRNG\obj\Debug\BondedAnimalsRNG.csproj.AssemblyReference.cache
+S:\Games\Steam\steamapps\common\RimWorld\Mods\BondedAnimalsRNG\1.6\Source\BondedAnimalsRNG\obj\Debug\BondedAnimalsRNG.csproj.CoreCompileInputs.cache
+S:\Games\Steam\steamapps\common\RimWorld\Mods\BondedAnimalsRNG\1.6\Source\BondedAnimalsRNG\obj\Debug\BondedAnimalsRNG.dll
