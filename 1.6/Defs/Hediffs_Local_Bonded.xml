@@ -13,7 +13,6 @@
             <li Class="BondedAnimalsRNG.HediffCompProperties_StatOffset">
                 <hediffCompData>
                     <MarketValue>1.1~3</MarketValue>
-                    <MarketValue>1.1~3</MarketValue>
                     <MaxHitPoints>1.1~3</MaxHitPoints>
                     <MoveSpeed>1.1~2</MoveSpeed>
                     <ToxicResistance>1.1~2</ToxicResistance>
