@@ -11,15 +11,8 @@ namespace BondedAnimalsRNG
             if (req.Thing is not Pawn pawn) return;
             float adjustment = GetStatOffsetFromHediff(pawn, parentStat);
             
-            if (Mathf.Approximately(val, 0f))
-            {
-                val = 1f;
-                val *= adjustment;
-            }
-            else
-            {
-                val *= adjustment;   
-            }
+            if (Mathf.Approximately(adjustment, 1f)) return;
+            val *= adjustment;
         }
         
         public override string ExplanationPart(StatRequest req)
@@ -27,16 +20,23 @@ namespace BondedAnimalsRNG
             if (req.Thing is not Pawn pawn) return null;
             float adjustment = GetStatOffsetFromHediff(pawn, parentStat);
             
-            if (adjustment < 1.1f) return null;
+            if (Mathf.Approximately(adjustment, 1f)) return null;
+            
             bool hasBondedColonist = PatchesHelper.HasBondedColonist(pawn);
-            return hasBondedColonist
-                ? "BARNG_BondedMasterFactor".Translate() + $"x{adjustment:F2}"
-                : "BARNG_MasterFactor".Translate() + $"x{adjustment:F2}";
+            string label = hasBondedColonist
+                ? "BARNG_BondedMasterFactor".Translate()
+                : "BARNG_MasterFactor".Translate();
+            
+            return $"{label}: x{adjustment:F2}";
         }
         
         private static float GetStatOffsetFromHediff(Pawn pawn, StatDef statDef)
         {
-            foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+            var hediffs = pawn.health?.hediffSet?.hediffs;
+            
+            if (hediffs == null) return 1f;
+            
+            foreach (var hediff in hediffs)
             {
                 if (hediff.TryGetComp<HediffComp_StatOffset>() is { } comp
                     && comp.chosenStat == statDef)

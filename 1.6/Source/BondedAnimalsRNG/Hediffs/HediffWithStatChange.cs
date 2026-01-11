@@ -18,6 +18,7 @@ namespace BondedAnimalsRNG
                 foreach (HediffComp comp in comps)
                 {
                     if (comp is not HediffComp_StatOffset statOffsetComp) continue;
+                    
                     stat = statOffsetComp.chosenStat;
                     float adjustmentValue = statOffsetComp.statAdjustment;
                     adjustmentPercentage = $"x{adjustmentValue:F2}";

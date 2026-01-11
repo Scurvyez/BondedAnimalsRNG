@@ -63,7 +63,9 @@ namespace BondedAnimalsRNG
                 {
                     float adjustmentValue = capOffsetComp.randomAdjustmentValue;
                     string adjustmentPercentage = (adjustmentValue * 100f - 100f).ToString("F0") + "%";
-                    string sign = adjustmentValue < 1f ? "" : "+";
+                    string sign = adjustmentValue < 1f 
+                        ? "" 
+                        : "+";
                     messageEnd += $" {capOffsetComp.capacityDef.LabelCap} {sign}{adjustmentPercentage}";
                 }
             }

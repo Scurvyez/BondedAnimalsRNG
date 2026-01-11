@@ -15,20 +15,21 @@ namespace BondedAnimalsRNG
         public static bool OnlyBondedChanges => Instance.onlyBondedChanges;
         public bool onlyBondedChanges = true;
         
-        public Dictionary<string, bool> hediffToggles = new ();
+        public Dictionary<string, bool> HediffToggles = new ();
         private List<string> _hediffToggleKeys;
         private List<bool> _hediffToggleValues;
         
         public bool IsHediffEnabled(string defName)
         {
-            return !hediffToggles.TryGetValue(defName, out bool isEnabled) || !isEnabled;
+            return !HediffToggles.TryGetValue(defName, out bool isEnabled) || !isEnabled;
         }
         
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref onlyBondedChanges, "onlyBondedChanges", true);
-            Scribe_Collections.Look(ref hediffToggles, "hediffToggles", LookMode.Value, LookMode.Value, ref _hediffToggleKeys, ref _hediffToggleValues);
+            Scribe_Collections.Look(ref HediffToggles, "hediffToggles", 
+                LookMode.Value, LookMode.Value, ref _hediffToggleKeys, ref _hediffToggleValues);
         }
     }
 }

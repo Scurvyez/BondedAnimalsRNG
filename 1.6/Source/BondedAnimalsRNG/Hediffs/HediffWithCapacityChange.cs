@@ -18,6 +18,7 @@ namespace BondedAnimalsRNG
                 foreach (HediffComp comp in comps)
                 {
                     if (comp is not HediffComp_CapacityOffset capacityOffsetComp) continue;
+                    
                     adjustmentValue = capacityOffsetComp.randomAdjustmentValue;
                     adjustmentPercentage = (adjustmentValue * 100f - 100f).ToString("F0") + "%";
                     break;

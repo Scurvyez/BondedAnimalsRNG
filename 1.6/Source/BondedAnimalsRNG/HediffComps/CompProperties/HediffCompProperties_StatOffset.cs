@@ -5,7 +5,7 @@ namespace BondedAnimalsRNG
 {
     public class HediffCompProperties_StatOffset : HediffCompProperties
     {
-        public List<HediffCompData> hediffCompData = new ();
+        public List<HediffCompData> hediffCompData = [];
         
         public HediffCompProperties_StatOffset()
         {
